@@ -9,11 +9,6 @@ export default function MainPage() {
         <button>Ask&nbsp;Question</button>
       </div>
       <Questions/>
-      <Questions/>
-      <Questions/>
-      <Questions/>
-      <Questions/>
-      <Questions/>
     </main>
   )
 }
