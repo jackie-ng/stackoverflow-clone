@@ -1,10 +1,128 @@
-# Getting Started with Create React App
+# StackOverflow Clone
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Task 1 - Partially Done
 
-## Available Scripts
 
-In the project directory, you can run:
+
+### Prepare the database
+
+1. Converted MDF file to csv using SQL server
+    ![mdf](sql2.png)
+2. Migrated csv under UTF-16 to UTF-8
+    ![csv](sql3.png)
+3. Migrated csv to postgreSQL database using pgAdmin
+    ![pgAdmin](sql4.png)
+
+**Issues**
+
+Cannot migrate data into **postgreSQL** to prepare for webapp backend
+
+**Solution**
+
+Used alternative API to begin the fronend
+
+### Building React App Functions
+
+    ![demo](demo.gif)
+
+
+**Questions.js**
+
+1.Fetching API using useEffect Hook
+
+```js
+  useEffect(() => {
+    axios.get(`API route here`)
+      .then((response) => {
+        console.log(response.data);
+        setAPIData(response.data);
+      })
+  }, [])
+
+```
+
+1. Creating a function for searching article/question
+
+```js
+const searchItems = (searchValue) => {
+    setSearchInput(searchValue)
+    if (searchInput !== '') {
+      const filteredData = APIData.filter((item) => {
+        return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
+      })
+      setFilteredResults(filteredData)
+    }
+    else {
+      setFilteredResults(APIData)
+    }
+  }
+```
+
+3. Input Component
+
+```js
+      <input placeholder='Search...'
+        onChange={(e) => searchItems(e.target.value)}
+      />
+```
+
+4. Mapping data array and return results
+
+- Show everything if there is no input
+
+```js
+          APIData.map((item) => {
+            return (
+              <div className='questionrow' id={item.id}>
+                <div className='questionstats'>0<span>votes</span></div>
+                <div className='questionstats'>1<span>answers</span></div>
+                <div className='questionstats'>6<span>views</span></div>
+
+
+                <div className='questiontitle'>
+                  <div className='questionlink'><a href={item.url}>{item.title}</a></div>
+                  {/* <p className='questionbody'>{item.body.slice(0, 140)}...</p> */}
+                  <div className='tags'>javascript</div>
+                  <div className='tags'>css</div>
+                  <div className='tags'>react</div>
+                  <div className='whoandwhen'>
+                    Asked {item.ago} ago
+                    {/* <Link to="/">Jackie</Link> */}
+                  </div>
+                </div>
+              </div>
+            )
+          })
+```
+
+- Show the result when we have some input
+
+```js
+searchInput.length > 1 && (
+          filteredResults.map((item) => {
+            return (
+              <>
+                <div className='questionrow' id={item.id}>
+                  <div className='questionstats'>0<span>votes</span></div>
+                  <div className='questionstats'>1<span>answers</span></div>
+                  <div className='questionstats'>6<span>views</span></div>
+                  <div className='questiontitle'>
+                    <div className='questionlink'><a href={item.url}>{item.title}</a></div>
+                    {/* <p className='questionbody'>{item.body.slice(0, 140)}...</p> */}
+                    <div className='tags'>javascript</div>
+                    <div className='tags'>css</div>
+                    <div className='tags'>react</div>
+                    <div className='whoandwhen'>
+                      Asked {item.ago} ago
+                      {/* <Link to="/">Jackie</Link> */}
+                    </div>
+                  </div>
+                </div>
+              </>
+            )
+          }))
+```
+
 
 ### `npm start`
 
@@ -14,57 +132,55 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Task 2 -- Done
 
-### `npm run build`
+``` sql
+SELECT
+    CASE WHEN PostTypeId = 1 THEN 'Question' ELSE 'Answer' END As [Post Type],
+    DATENAME(WEEKDAY, p.CreationDate) AS Day,
+    Count(*) AS Amount,
+    SUM(CASE WHEN VoteTypeId = 2 THEN 1 ELSE 0 END) AS UpVotes,
+    SUM(CASE WHEN VoteTypeId = 3 THEN 1 ELSE 0 END) AS DownVotes,
+    CASE WHEN SUM(CASE WHEN VoteTypeId = 3 THEN 1 ELSE 0 END) = 0 THEN NULL
+     ELSE (CAST(SUM(CASE WHEN VoteTypeId = 2 THEN 1 ELSE 0 END) AS float) / CAST(SUM(CASE WHEN VoteTypeId = 3 THEN 1 ELSE 0 END) AS float))
+    END AS UpVoteDownVoteRatio
+FROM
+    Votes v JOIN Posts p ON v.PostId=p.Id
+WHERE
+    PostTypeId In (1,2)
+ AND
+    VoteTypeId In (2,3)
+GROUP BY
+    PostTypeId, DATEPART(WEEKDAY, p.CreationDate), DATENAME(WEEKDAY, p.CreationDate)
+ORDER BY
+    UpVoteDownVoteRatio DESC
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Task 3 -- Partially done
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+``` sql
+DECLARE @start datetime = DATEADD(day, -7*52*8, GETDATE());
+DECLARE @stop  datetime = DATEADD(day, -2, GETDATE());
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+SELECT
+  DATEADD(week, datediff(week, @start, p.CreationDate), @start) as [Week],
+  SUM(CASE WHEN p.PostTypeId = 1 THEN 1 ELSE 0 END) AS [Questions],
+  SUM(CASE WHEN p.PostTypeId = 2 THEN 1 ELSE 0 END) AS [Answers],
+  CASE WHEN SUM(CASE WHEN VoteTypeId = 3 THEN 1 ELSE 0 END) = 0 THEN NULL
+     ELSE (CAST(SUM(CASE WHEN VoteTypeId = 2 THEN 1 ELSE 0 END) AS float)
+  + CAST(SUM(CASE WHEN VoteTypeId = 3 THEN 1 ELSE 0 END) AS float)) AS [Votes]
+FROM
+    Votes v JOIN Posts p ON v.PostId=p.Id
+WHERE
+  PostTypeId In (1,2)
+ AND
+    VoteTypeId In (2,3)
+  and p.CreationDate >= @start and p.CreationDate < @stop
+GROUP BY
+  dateadd(week, datediff(week, @start, p.CreationDate), @start)
+ORDER BY
+  dateadd(week, datediff(week, @start, p.CreationDate), @start)
+    ```
+```
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
