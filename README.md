@@ -106,7 +106,7 @@ Show everything if there is no input
           })
 ```
 
-1. Show the result when we have some input
+5. Show the result when we have some input
 
 ```js
 searchInput.length > 1 && (
@@ -158,7 +158,7 @@ GROUP BY
 ORDER BY
     UpVoteDownVoteRatio DESC
 ```
-<img src="sql1.png" alt="sql" style="width:200px;"/>
+<img src="sql1.png" alt="sql" style="width:500px;"/>
 
 ## Task 3 -- Partially done
 
