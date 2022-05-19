@@ -39,7 +39,7 @@ Used alternative API to begin the fronend
 
 **Questions.js**
 
-1.Fetching API using useEffect Hook
+1. Fetching API using useEffect Hook
 
 ```js
   useEffect(() => {
