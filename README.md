@@ -7,10 +7,15 @@
 ### Prepare the database
 
 1. Converted MDF file to csv using SQL server
+
     ![mdf](sql2.png)
+
 2. Migrated csv under UTF-16 to UTF-8
+
     ![csv](sql3.png)
+
 3. Migrated csv to postgreSQL database using pgAdmin
+
     ![pgAdmin](sql4.png)
 
 **Issues**
@@ -23,10 +28,11 @@ Used alternative API to begin the fronend
 
 ### Building React App Functions
 
-    ![demo](demo.gif)
 
 
 **Questions.js**
+    ![demo](demo.gif)
+
 
 1.Fetching API using useEffect Hook
 
