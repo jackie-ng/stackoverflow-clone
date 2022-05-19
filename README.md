@@ -79,7 +79,7 @@ const searchItems = (searchValue) => {
 
 4. Mapping data array and return results
 
-- Show everything if there is no input
+Show everything if there is no input
 
 ```js
           APIData.map((item) => {
@@ -106,7 +106,7 @@ const searchItems = (searchValue) => {
           })
 ```
 
-5. Show the result when we have some input
+1. Show the result when we have some input
 
 ```js
 searchInput.length > 1 && (
