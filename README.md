@@ -1,14 +1,22 @@
 # StackOverflow Clone
 
+
 ## Task 1 - Partially Done
+![demo](demo.gif)
 
+### `npm start`
 
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
 ### Prepare the database
 
 1. Converted MDF file to csv using SQL server
 
-<img src="sql2.png" alt="mdf" style="width:500px;"/>
+<img src="sql2.png" alt="mdf" style="width:200px;"/>
 
 2. Migrated csv under UTF-16 to UTF-8
 
@@ -25,15 +33,11 @@ Cannot migrate data into **postgreSQL** to prepare for webapp backend
 **Solution**
 
 Used alternative API to begin the fronend
-    ![demo](demo.gif)
+
 
 ### Building React App Functions
 
-
-
 **Questions.js**
-
-
 
 1.Fetching API using useEffect Hook
 
@@ -48,7 +52,7 @@ Used alternative API to begin the fronend
 
 ```
 
-1. Creating a function for searching article/question
+2. Creating a function for searching article/question
 
 ```js
 const searchItems = (searchValue) => {
@@ -102,7 +106,7 @@ const searchItems = (searchValue) => {
           })
 ```
 
-- Show the result when we have some input
+5. Show the result when we have some input
 
 ```js
 searchInput.length > 1 && (
@@ -131,15 +135,6 @@ searchInput.length > 1 && (
 ```
 
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-
 ## Task 2 -- Done
 
 ``` sql
@@ -163,6 +158,7 @@ GROUP BY
 ORDER BY
     UpVoteDownVoteRatio DESC
 ```
+<img src="sql1.png" alt="sql" style="width:200px;"/>
 
 ## Task 3 -- Partially done
 
