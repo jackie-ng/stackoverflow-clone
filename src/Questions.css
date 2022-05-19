@@ -30,7 +30,7 @@
   color: white;
 }
 
-.questionlink {
+.questionlink a {
   text-decoration: none;
   color:#3ca4ff;
   font-size: 1.1rem;
@@ -68,4 +68,24 @@
 .whoandwhen a {
   text-decoration: none;
   color: #3ca4ff;
+}
+
+.scroll {
+  overflow: scroll;
+  background-color: #393939;
+  height: 42rem;
+}
+
+input {
+  background:none;
+  border: 1px solid #777;
+  border-radius: 3px;
+  display: block;
+  width:50%;
+  box-sizing: border-box;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color:#fff;
+
 }

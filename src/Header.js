@@ -6,9 +6,9 @@ export default function Header() {
   return (
     <header>
       <Link className="logo" to="/">Stack<b>Overflow</b></Link>
-      <form action="" className='search'>
+      {/* <form action="" className='search'>
         <input type="text" placeholder='Search' />
-      </form>
+      </form> */}
       <Link className="logo" to="/profile"><b>Jackie</b></Link>
       </header>
   )
