@@ -8,15 +8,15 @@
 
 1. Converted MDF file to csv using SQL server
 
-    ![mdf](sql2.png)
+<img src="sql2.png" alt="mdf" style="width:500px;"/>
 
 2. Migrated csv under UTF-16 to UTF-8
 
-    ![csv](sql3.png)
+<img src="sql3.png" alt="csv" style="width:500px;"/>
 
 3. Migrated csv to postgreSQL database using pgAdmin
 
-    ![pgAdmin](sql4.png)
+<img src="sql4.png" alt="pgAdmin" style="width:500px;"/>
 
 **Issues**
 
@@ -25,15 +25,15 @@ Cannot migrate data into **postgreSQL** to prepare for webapp backend
 **Solution**
 
 Used alternative API to begin the fronend
+    ![demo](demo.gif)
 
 ### Building React App Functions
 
 
 
 **Questions.js**
-    <!-- ![demo](demo.gif) -->
 
-<img src="demo.gif" alt="demo" style="width:500px;"/>
+
 
 1.Fetching API using useEffect Hook
 
