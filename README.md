@@ -31,8 +31,9 @@ Used alternative API to begin the fronend
 
 
 **Questions.js**
-    ![demo](demo.gif)
+    <!-- ![demo](demo.gif) -->
 
+<img src="demo.gif" alt="demo" style="width:500px;"/>
 
 1.Fetching API using useEffect Hook
 
